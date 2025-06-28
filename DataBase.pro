@@ -11,11 +11,13 @@ CONFIG += c++17
 
 SOURCES += \
     aboutme.cpp \
+    crud.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     aboutme.h \
+    crud.h \
     mainwindow.h
 
 FORMS += \
