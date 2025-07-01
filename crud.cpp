@@ -10,7 +10,10 @@ void CRUD::setup_default_headers(QStandardItemModel *model) {
     }
 }
 
-void CRUD::add_product(QStandardItemModel *model, int &countColumn, int &countRow){
+void CRUD::add_product(QStandardItemModel *model){
+    int countColumn = model->columnCount();
+    int countRow = model->rowCount();
+
     model->insertRow(countRow);
 
     for(int i = 0; i < countColumn; i++){
@@ -18,7 +21,9 @@ void CRUD::add_product(QStandardItemModel *model, int &countColumn, int &countRo
     }
 }
 
-void CRUD::add_characteristic(QStandardItemModel *model, int &countColumn, int &countRow, QString &nameNewCharacyteristicText){
+void CRUD::add_characteristic(QStandardItemModel *model, QString &nameNewCharacyteristicText){
+    int countColumn = model->columnCount();
+
     model->insertColumn(countColumn);
     for(int i = 0; i < model->rowCount(); i++){
         model->setItem(i, countColumn, new QStandardItem(""));
@@ -26,3 +31,39 @@ void CRUD::add_characteristic(QStandardItemModel *model, int &countColumn, int &
 
     model->setHeaderData(countColumn, Qt::Horizontal, nameNewCharacyteristicText);
 }
+
+bool CRUD::delete_product(QStandardItemModel *model, int &clickedRow){
+    if(model->rowCount() > 1){
+        model->removeRow(clickedRow);
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+bool CRUD::delete_characteristic(QStandardItemModel *model, int &clickedColumn){
+    if(clickedColumn < COUNT_BASE_COLUMNS){
+        return false;
+    }
+    else{
+        model->removeColumn(clickedColumn);
+        return true;
+    }
+}
+
+void CRUD::clear_table(QStandardItemModel *model){
+    model->clear();
+    CRUD::setup_default_headers(model);
+
+    for(int i = 0; i < COUNT_BASE_COLUMNS; i++){
+        model->setItem(0, i, new QStandardItem(""));
+    }
+}
+
+
+
+
+
+
+

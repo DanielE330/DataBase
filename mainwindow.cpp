@@ -161,10 +161,7 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
 
 void MainWindow::on_add_product_clicked()
 {
-    countColumn = model->columnCount();
-    countRow = model->rowCount();
-
-    CRUD::add_product(model, countColumn, countRow);
+    CRUD::add_product(model);
 
     ui->tableView->setModel(model);
 
@@ -173,44 +170,28 @@ void MainWindow::on_add_product_clicked()
 
 void MainWindow::on_add_characteristic_clicked()
 {
-    countColumn = model->columnCount();
     QString nameNewCharacyteristicText = ui->lineEdit->text();
 
-    CRUD::add_characteristic(model, countColumn, countRow, nameNewCharacyteristicText);
+    CRUD::add_characteristic(model, nameNewCharacyteristicText);
 
     saveDB(path);
 }
 
 void MainWindow::on_delete_product_clicked()
 {
-    if(model->rowCount() > 1){
-        model->removeRow(clickedRow);
-        saveDB(path);
-    }
-    else{
-        QMessageBox::critical(this, "Ошибка", "Ошибка выбора удаляемой строки. Строк должно быть больше 1");
-    }
+    CRUD::delete_product(model, clickedRow) ? (void)saveDB(path) : (void)QMessageBox::critical(nullptr, "Ошибка", "Ошибка выбора удаляемой строки. Строк должно быть больше 1");
 }
 
 void MainWindow::on_delete_characteristic_clicked()
 {
-    if(clickedColumn < COUNT_BASE_COLUMNS){
-        QMessageBox::critical(this, "Ошибка", "Ошибка выбора удаляемого столбца. Столбец не должен быть основным");
-    }
-    else{
-        model->removeColumn(clickedColumn);
-        saveDB(path);
-    }
+    CRUD::delete_characteristic(model, clickedColumn) ? (void)saveDB(path) : (void)QMessageBox::critical(this, "Ошибка", "Ошибка выбора удаляемого столбца. Столбец не должен быть основным");
 }
 
 void MainWindow::on_clear_table_clicked()
 {
-    model->clear();
-    CRUD::setup_default_headers(model);
+    CRUD::clear_table(model);
 
-    for(int i = 0; i < COUNT_BASE_COLUMNS; i++){
-        model->setItem(0, i, new QStandardItem(""));
-    }
+
     ui->tableView->setModel(model);
     saveDB(path);
 }
