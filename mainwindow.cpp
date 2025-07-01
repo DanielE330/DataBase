@@ -30,29 +30,18 @@ MainWindow::MainWindow(QWidget *parent)
     clearTable = new QShortcut(this);
     clearTable->setKey(Qt::SHIFT | Qt::Key_C);
     connect(clearTable, SIGNAL(activated()), this, SLOT(on_clear_table_clicked()));
-
-
-
 }
 
 MainWindow::~MainWindow() {
     delete ui;
-}
-
-void MainWindow::setup_default_headers() {
-    model->setRowCount(1);
-    model->setColumnCount(headers.size());
-    for (int i = 0; i < headers.size(); i++) {
-        model->setHeaderData(i, Qt::Horizontal, headers[i]);
-    }
+    delete model;
 }
 
 void MainWindow::readDB(QString path) {
     QFile fileDB(path);
     if (!fileDB.open(QIODevice::ReadOnly)) {
         QMessageBox::warning(this, "Ошибка", "Файл не найден");
-        setup_default_headers();
-        return;
+        CRUD::setup_default_headers(model);
     }
 
     QTextStream in(&fileDB);
@@ -79,7 +68,7 @@ void MainWindow::readDB(QString path) {
             row++;
         }
     } else {
-        setup_default_headers();
+        CRUD::setup_default_headers(model);
     }
 
     fileDB.close();
@@ -175,12 +164,10 @@ void MainWindow::on_add_product_clicked()
     countColumn = model->columnCount();
     countRow = model->rowCount();
 
-    model->insertRow(countRow);
-    for(int i = 0; i < countColumn; i++){
-        model->setItem(countRow, i, new QStandardItem(""));
-    }
+    CRUD::add_product(model, countColumn, countRow);
 
     ui->tableView->setModel(model);
+
     saveDB(path);
 }
 
@@ -189,12 +176,8 @@ void MainWindow::on_add_characteristic_clicked()
     countColumn = model->columnCount();
     QString nameNewCharacyteristicText = ui->lineEdit->text();
 
-    model->insertColumn(countColumn);
-    for(int i = 0; i < model->rowCount(); i++){
-        model->setItem(i, countColumn, new QStandardItem(""));
-    }
+    CRUD::add_characteristic(model, countColumn, countRow, nameNewCharacyteristicText);
 
-    model->setHeaderData(countColumn, Qt::Horizontal, nameNewCharacyteristicText);
     saveDB(path);
 }
 
@@ -223,7 +206,8 @@ void MainWindow::on_delete_characteristic_clicked()
 void MainWindow::on_clear_table_clicked()
 {
     model->clear();
-    setup_default_headers();
+    CRUD::setup_default_headers(model);
+
     for(int i = 0; i < COUNT_BASE_COLUMNS; i++){
         model->setItem(0, i, new QStandardItem(""));
     }
