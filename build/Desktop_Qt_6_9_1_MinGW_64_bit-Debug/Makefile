@@ -309,6 +309,7 @@ Makefile: ../../DataBase.pro C:/soft/QT/6.9.1/mingw_64/mkspecs/win32-g++/qmake.c
 		../../DataBase.pro \
 		C:/soft/QT/6.9.1/mingw_64/lib/Qt6Widgets.prl \
 		C:/soft/QT/6.9.1/mingw_64/lib/Qt6Gui.prl \
+		C:/soft/QT/6.9.1/mingw_64/lib/Qt6Concurrent.prl \
 		C:/soft/QT/6.9.1/mingw_64/lib/Qt6Core.prl \
 		C:/soft/QT/6.9.1/mingw_64/lib/Qt6EntryPoint.prl \
 		C:/soft/QT/6.9.1/mingw_64/mkspecs/features/build_pass.prf
@@ -552,6 +553,7 @@ C:/soft/QT/6.9.1/mingw_64/mkspecs/features/lex.prf:
 ../../DataBase.pro:
 C:/soft/QT/6.9.1/mingw_64/lib/Qt6Widgets.prl:
 C:/soft/QT/6.9.1/mingw_64/lib/Qt6Gui.prl:
+C:/soft/QT/6.9.1/mingw_64/lib/Qt6Concurrent.prl:
 C:/soft/QT/6.9.1/mingw_64/lib/Qt6Core.prl:
 C:/soft/QT/6.9.1/mingw_64/lib/Qt6EntryPoint.prl:
 C:/soft/QT/6.9.1/mingw_64/mkspecs/features/build_pass.prf:

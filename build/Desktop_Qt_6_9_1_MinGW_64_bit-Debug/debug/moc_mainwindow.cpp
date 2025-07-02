@@ -79,13 +79,13 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         // Slot 'on_saveDB_triggered'
         QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'saveDB'
-        QtMocHelpers::SlotData<void(QString)>(13, 2, QMC::AccessPrivate, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(const QString &)>(13, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { QMetaType::QString, 14 },
         }}),
         // Slot 'saveDB'
         QtMocHelpers::SlotData<void()>(13, 2, QMC::AccessPrivate | QMC::MethodCloned, QMetaType::Void),
         // Slot 'readDB'
-        QtMocHelpers::SlotData<void(QString)>(15, 2, QMC::AccessPrivate, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(const QString &)>(15, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { QMetaType::QString, 14 },
         }}),
         // Slot 'readDB'

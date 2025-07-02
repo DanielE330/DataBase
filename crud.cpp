@@ -11,12 +11,11 @@ void CRUD::setup_default_headers(QStandardItemModel *model) {
 }
 
 void CRUD::add_product(QStandardItemModel *model){
-    int countColumn = model->columnCount();
     int countRow = model->rowCount();
 
     model->insertRow(countRow);
 
-    for(int i = 0; i < countColumn; i++){
+    for(int i = 0; i < model->columnCount(); i++){
         model->setItem(countRow, i, new QStandardItem(""));
     }
 }

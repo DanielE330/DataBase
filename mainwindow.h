@@ -1,10 +1,12 @@
-    #include <QMainWindow>
+#include <QMainWindow>
 #include <QStandardItemModel>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QShortcut>
 #include <QFuture>
 #include <QtConcurrent/QtConcurrent>
+
+#include "databaseio.h"
 #include "crud.h"
 
 #ifndef MAINWINDOW_H
@@ -45,9 +47,9 @@ private slots:
 
     void on_saveDB_triggered();
 
-    void saveDB(QString path = "fileDB.txt");
+    void saveDB(const QString &path = "fileDB.txt");
 
-    void readDB(QString path = "fileDB.txt");
+    void readDB(const QString &path = "fileDB.txt");
 
     void on_about_me_triggered();
 

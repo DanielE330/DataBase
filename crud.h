@@ -1,10 +1,6 @@
 #include <QStandardItemModel>
 #include <QMessageBox>
 #include <QFileDialog>
-#include <QShortcut>
-#include <QFuture>
-#include <QtConcurrent/QtConcurrent>
-#include <QStringList>
 
 #ifndef CRUD_H
 #define CRUD_H
@@ -34,6 +30,7 @@ private:
         "название", "код ТНВЭД", "количество товара",
         "цена товара", "всего", "ндс в процентах",
         "ндс", "всего с ндс"
-    };};
+    };
+};
 
 #endif // CRUD_H

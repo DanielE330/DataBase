@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -12,12 +12,14 @@ CONFIG += c++17
 SOURCES += \
     aboutme.cpp \
     crud.cpp \
+    databaseio.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     aboutme.h \
     crud.h \
+    databaseio.h \
     mainwindow.h
 
 FORMS += \

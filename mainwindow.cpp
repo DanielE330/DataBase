@@ -37,120 +37,15 @@ MainWindow::~MainWindow() {
     delete model;
 }
 
-void MainWindow::readDB(QString path) {
-    QFile fileDB(path);
-    if (!fileDB.open(QIODevice::ReadOnly)) {
-        QMessageBox::warning(this, "Ошибка", "Файл не найден");
-        CRUD::setup_default_headers(model);
-    }
+void MainWindow::readDB(const QString &path) {
+    ui->label->setText(DataBaseIO::readDB(path, model));
 
-    QTextStream in(&fileDB);
-    QStandardItemModel *tempModel = new QStandardItemModel(this);
-
-    QString headerLine = in.readLine();
-    if (!headerLine.isEmpty()) {
-        QStringList headers = headerLine.split(';');
-        tempModel->setColumnCount(headers.size());
-        for (int i = 0; i < headers.size(); i++) {
-            tempModel->setHeaderData(i, Qt::Horizontal, headers[i]);
-        }
-
-        int row = 0;
-        while (!in.atEnd()) {
-            QString dataLine = in.readLine();
-            if (dataLine.isEmpty()) continue;
-
-            QStringList items = dataLine.split(';');
-            tempModel->insertRow(row);
-            for (int col = 0; col < items.size(); col++) {
-                tempModel->setItem(row, col, new QStandardItem(items[col]));
-            }
-            row++;
-        }
-    } else {
-        CRUD::setup_default_headers(model);
-    }
-
-    fileDB.close();
-
-    delete model;
-    model = tempModel;
     ui->tableView->setModel(model);
-    ui->label->setText("Путь: " + path);
 }
 
-
-
-void MainWindow::saveDB(QString path)
+void MainWindow::saveDB(const QString &path)
 {
-    if (path.isEmpty()) {
-        QMessageBox::warning(this, "Ошибка", "Не указан путь для сохранения");
-        return;
-    }
-
-    if (!path.endsWith(".txt", Qt::CaseInsensitive)) {
-        path += ".txt";
-    }
-
-    QStandardItemModel* modelCopy = new QStandardItemModel();
-
-    QStringList headers;
-    for(int i = 0; i < model->columnCount(); ++i) {
-        headers << model->headerData(i, Qt::Horizontal).toString();
-    }
-    modelCopy->setHorizontalHeaderLabels(headers);
-
-    for(int row = 0; row < model->rowCount(); ++row) {
-        modelCopy->insertRow(row);
-        for(int column = 0; column < model->columnCount(); ++column) {
-            QStandardItem* item = model->item(row, column);
-            if(item) {
-                modelCopy->setItem(row, column, new QStandardItem(item->text()));
-            }
-        }
-    }
-
-    QFuture<void> future = QtConcurrent::run([this, path, modelCopy]() {
-        QFile file(path);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            QMetaObject::invokeMethod(this, [this, path]() {
-                QMessageBox::critical(this, "Ошибка",
-                                      "Не удалось открыть файл для записи: " + path);
-            }, Qt::QueuedConnection);
-            delete modelCopy;
-            return;
-        }
-
-        QTextStream out(&file);
-
-        for(int i = 0; i < modelCopy->columnCount(); ++i) {
-            if(i > 0) out << ";";
-            out << modelCopy->headerData(i, Qt::Horizontal).toString();
-        }
-        out << "\n";
-
-
-        for(int row = 0; row < modelCopy->rowCount(); ++row) {
-            for(int col = 0; col < modelCopy->columnCount(); ++col) {
-                if(col > 0) out << ";";
-                QStandardItem* item = modelCopy->item(row, col);
-                out << (item ? item->text() : "");
-            }
-            out << "\n";
-        }
-
-        file.close();
-
-        ui->label->setText("Путь: " + path);
-
-        delete modelCopy;
-    });
-
-    QFutureWatcher<void>* watcher = new QFutureWatcher<void>();
-    connect(watcher, &QFutureWatcher<void>::finished, [watcher]() {
-        watcher->deleteLater();
-    });
-    watcher->setFuture(future);
+    ui->label->setText(DataBaseIO::saveDB(path, model));
 }
 
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
@@ -191,21 +86,21 @@ void MainWindow::on_clear_table_clicked()
 {
     CRUD::clear_table(model);
 
-
     ui->tableView->setModel(model);
     saveDB(path);
 }
 
 void MainWindow::on_calculate_clicked()
 {
+    float colvo, price, nds, total, ndsValue, totalWithNds;
     for(int i = 0; i < model->rowCount(); i++){
-        float colvo = model->index(i, 2).data(Qt::DisplayRole).toFloat();
-        float price = model->index(i, 3).data(Qt::DisplayRole).toFloat();
-        float nds = model->index(i, 5).data(Qt::DisplayRole).toFloat() / 100.0;
+        colvo = model->index(i, 2).data(Qt::DisplayRole).toFloat();
+        price = model->index(i, 3).data(Qt::DisplayRole).toFloat();
+        nds = model->index(i, 5).data(Qt::DisplayRole).toFloat() / 100.0;
 
-        float total = colvo * price;
-        float ndsValue = total * nds;
-        float totalWithNds = total + ndsValue;
+        total = colvo * price;
+        ndsValue = total * nds;
+        totalWithNds = total + ndsValue;
 
         model->setItem(i, 4, new QStandardItem(QString::number(total)));
         model->setItem(i, 6, new QStandardItem(QString::number(ndsValue)));
@@ -232,9 +127,6 @@ void MainWindow::on_saveDB_triggered()
         saveDB(path);
     }
 }
-
-
-
 
 void MainWindow::on_about_me_triggered()
 {
