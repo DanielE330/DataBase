@@ -1,8 +1,5 @@
 #include "databaseio.h"
-#include <QFile>
-#include <QTextStream>
-#include <QFuture>
-#include <QtConcurrent>
+
 
 DataBaseIO::DataBaseIO() {}
 
@@ -19,8 +16,7 @@ const QString DataBaseIO::saveDB(const QString &path, QStandardItemModel *model)
 
     QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QMessageBox::critical(nullptr, "Ошибка",
-                              "Не удалось открыть файл для записи: " + filePath);
+        QMessageBox::critical(nullptr, "Ошибка", "Не удалось открыть файл для записи: " + filePath);
     }
 
     QTextStream out(&file);
@@ -34,6 +30,7 @@ const QString DataBaseIO::saveDB(const QString &path, QStandardItemModel *model)
     for (int row = 0; row < model->rowCount(); ++row) {
         for (int col = 0; col < model->columnCount(); ++col) {
             if (col > 0) out << ";";
+
             QStandardItem* item = model->item(row, col);
             out << (item ? item->text() : "");
         }
@@ -53,8 +50,7 @@ const QString DataBaseIO::readDB(const QString &path, QStandardItemModel *model)
 
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::critical(nullptr, "Ошибка",
-                              "Не удалось открыть файл для чтения: " + path);
+        QMessageBox::critical(nullptr, "Ошибка", "Не удалось открыть файл для чтения: " + path);
     }
 
     model->clear();
@@ -64,7 +60,9 @@ const QString DataBaseIO::readDB(const QString &path, QStandardItemModel *model)
     if (!in.atEnd()) {
         QString headerLine = in.readLine();
         QStringList headers = headerLine.split(";");
+
         model->setColumnCount(headers.size());
+
         for (int col = 0; col < headers.size(); ++col) {
             model->setHeaderData(col, Qt::Horizontal, headers[col]);
         }
@@ -79,9 +77,11 @@ const QString DataBaseIO::readDB(const QString &path, QStandardItemModel *model)
         for (int col = 0; col < values.size() && col < model->columnCount(); ++col) {
             model->setItem(row, col, new QStandardItem(values[col]));
         }
+
         row++;
     }
 
     file.close();
+
     return path;
 }

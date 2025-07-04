@@ -1,20 +1,13 @@
 #include <QMainWindow>
-#include <QStandardItemModel>
-#include <QMessageBox>
-#include <QFileDialog>
 #include <QShortcut>
-#include <QFuture>
-#include <QtConcurrent/QtConcurrent>
+#include <QFileDialog>
 
 #include "databaseio.h"
 #include "crud.h"
+#include "aboutme.h"
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
-
-
-#include "aboutme.h"
 
 #define COUNT_BASE_COLUMNS 8
 
@@ -71,10 +64,6 @@ private:
     QShortcut *addProduct;
     QShortcut *deleteProduct;
     QShortcut *clearTable;
-
-
-
-    void setup_default_headers();
 };
 
 #endif // MAINWINDOW_H

@@ -5,6 +5,7 @@ CRUD::CRUD() {}
 void CRUD::setup_default_headers(QStandardItemModel *model) {
     model->setRowCount(1);
     model->setColumnCount(headers.size());
+
     for (int i = 0; i < headers.size(); i++) {
         model->setHeaderData(i, Qt::Horizontal, headers[i]);
     }
@@ -24,6 +25,7 @@ void CRUD::add_characteristic(QStandardItemModel *model, QString &nameNewCharacy
     int countColumn = model->columnCount();
 
     model->insertColumn(countColumn);
+
     for(int i = 0; i < model->rowCount(); i++){
         model->setItem(i, countColumn, new QStandardItem(""));
     }
@@ -53,6 +55,7 @@ bool CRUD::delete_characteristic(QStandardItemModel *model, int &clickedColumn){
 
 void CRUD::clear_table(QStandardItemModel *model){
     model->clear();
+
     CRUD::setup_default_headers(model);
 
     for(int i = 0; i < COUNT_BASE_COLUMNS; i++){

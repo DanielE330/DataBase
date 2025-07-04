@@ -4,6 +4,10 @@
 #include <QString>
 #include <QStandardItemModel>
 #include <QMessageBox>
+#include <QFile>
+#include <QTextStream>
+#include <QFuture>
+#include <QtConcurrent>
 
 class DataBaseIO
 {

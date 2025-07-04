@@ -7,8 +7,10 @@ MainWindow::MainWindow(QWidget *parent)
     model(new QStandardItemModel(this))
 {
     ui->setupUi(this);
+
     setWindowTitle("DataBase");
     showMaximized();
+
     readDB(path);
 
     addCharacteristic = new QShortcut(this);
@@ -87,12 +89,14 @@ void MainWindow::on_clear_table_clicked()
     CRUD::clear_table(model);
 
     ui->tableView->setModel(model);
+
     saveDB(path);
 }
 
 void MainWindow::on_calculate_clicked()
 {
     float colvo, price, nds, total, ndsValue, totalWithNds;
+
     for(int i = 0; i < model->rowCount(); i++){
         colvo = model->index(i, 2).data(Qt::DisplayRole).toFloat();
         price = model->index(i, 3).data(Qt::DisplayRole).toFloat();
@@ -113,6 +117,7 @@ void MainWindow::on_calculate_clicked()
 void MainWindow::on_readDB_triggered()
 {
     QString newPath = QFileDialog::getOpenFileName(this, "Выбор файла", path, "Текстовые файлы (*.txt);");
+
     if(!newPath.isEmpty()) {
         path = newPath;
         readDB(path);
@@ -121,9 +126,11 @@ void MainWindow::on_readDB_triggered()
 
 void MainWindow::on_saveDB_triggered()
 {
+
     QString newPath = QFileDialog::getSaveFileName(this, "Сохранить файл", path, "Текстовые файлы (*.txt);");
     if(!newPath.isEmpty()) {
         path = newPath;
+
         saveDB(path);
     }
 }

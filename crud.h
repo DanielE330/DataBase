@@ -1,6 +1,4 @@
 #include <QStandardItemModel>
-#include <QMessageBox>
-#include <QFileDialog>
 
 #ifndef CRUD_H
 #define CRUD_H
@@ -11,8 +9,6 @@ class CRUD
 {
 public:
     CRUD();
-
-    static void setup_default_headers(QStandardItemModel *model);
 
     static void add_product(QStandardItemModel *model);
 
@@ -31,6 +27,9 @@ private:
         "цена товара", "всего", "ндс в процентах",
         "ндс", "всего с ндс"
     };
+
+    static void setup_default_headers(QStandardItemModel *model);
+
 };
 
 #endif // CRUD_H
