@@ -15,6 +15,8 @@
 - [crud.cpp](https://github.com/DanielE330/DataBase/blob/main/crud.cpp) - отвечает за изменение таблицы
 
 
+По умолчанию данные храняться в файле [fileDB.txt](https://github.com/DanielE330/DataBase/blob/main/release/fileDB.txt), но сам пользователь может изменить и указать куда ему надо
+
 Также постарался над графической составляющей. за это отвечают [mainwindow.ui](https://github.com/DanielE330/DataBase/blob/main/mainwindow.ui) и [aboutme.ui](https://github.com/DanielE330/DataBase/blob/main/aboutme.ui). Оформил всё в нежно-голубых тоннах
 
  
